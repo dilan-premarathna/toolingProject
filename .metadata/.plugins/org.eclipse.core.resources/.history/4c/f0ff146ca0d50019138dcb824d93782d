@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy name="weatherProxyService" startOnLoad="true" transports="http https" xmlns="http://ws.apache.org/ns/synapse">
+    <target>
+        <inSequence>
+            <property name="url" scope="default" type="STRING" value="http://api.openweathermap.org/data/2.5/weather?id="/>
+            <property expression="$body//id" name="cityId" scope="default" type="STRING"/>
+            <class name="org.wso2.carbon.ei.sample.SampleClassMediator"/>
+            <property expression="get-property('APP_ID')" name="queryParam" scope="default" type="STRING"/>
+            <header expression="fn:concat($ctx:url,$ctx:cityId,'&amp;','APPID=', $ctx:queryParam)" name="To" scope="default"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </target>
+</proxy>
